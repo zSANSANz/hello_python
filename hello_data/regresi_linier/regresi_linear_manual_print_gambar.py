@@ -1,12 +1,8 @@
-`import pandas as pd
+import pandas as pd
 import matplotlib.pyplot as plt
 
-# Data
-data = {
-    "Open": [2581.2, 2570.7, 2566, 2590.4, 2626.5, 2636.8, 2656.3, 2662.3, 2670, 2660.9, 2631.4],
-    "Close": [2564.3, 2570.7, 2588, 2619.9, 2626.5, 2651.2, 2659.2, 2669.9, 2644.3, 2636.1, 2667.3]
-}
-df = pd.DataFrame(data)
+# Baca data dari file CSV yang sudah di-scraping
+df = pd.read_csv("scrapping_yahoo_bca.csv")
 
 # 1. Hitung rata-rata
 x_mean = df["Open"].mean()
@@ -36,7 +32,7 @@ print("\nSlope (b):", b)
 print("Intercept (a):", a)
 
 # 5. Prediksi contoh
-x_pred = 2640
+x_pred = 7250  
 y_pred = a + b * x_pred
 print(f"\nPrediksi Close jika Open={x_pred}: {y_pred}")
 
@@ -63,4 +59,3 @@ plt.title("Regresi Linier Manual (Open vs Close)")
 plt.legend()
 plt.grid(True)
 plt.show()
-`
