@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HR Chatbot</title>
+</head>
+<body>
+    <h2>HR Chatbot</h2>
+
+    <form id="chat-form">
+        <input type="text" id="msg" placeholder="Tulis pertanyaan..." required>
+        <button type="submit">Kirim</button>
+    </form>
+
+    <p id="response"></p>
+
+    <script>
+        const form = document.getElementById("chat-form");
+        form.onsubmit = async function(e) {
+            e.preventDefault();
+            const msg = document.getElementById("msg").value;
+
+            const res = await fetch("/get", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: "msg=" + encodeURIComponent(msg)
+            });
+
+            const data = await res.json();
+            document.getElementById("response").innerText = data.response;
+        }
+    </script>
+</body>
+</html>

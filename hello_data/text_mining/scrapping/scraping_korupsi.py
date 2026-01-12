@@ -1,9 +1,3 @@
-"""
-scrape_korupsi.py
-Scrape berita terkait korupsi dari beberapa media mainstream menggunakan RSS feeds.
-Simpan hasil ke JSON/CSV.
-"""
-
 import time
 import random
 import json
@@ -25,7 +19,7 @@ REQUEST_TIMEOUT = 15
 RATE_MIN, RATE_MAX = 1.0, 3.0  # seconds between requests
 
 # Kata kunci untuk memfilter artikel relevan (bahasa Indonesia)
-KEYWORDS = ["korupsi", "suap", "gratifikasi", "pencucian uang", "tindak pidana korupsi", "KPK", "penyalahgunaan", "mark-up"]
+KEYWORDS = ["purbaya"]
 
 # Daftar RSS feed dari beberapa media mainstream Indonesia (tambahkan sesuai kebutuhan)
 RSS_FEEDS = {

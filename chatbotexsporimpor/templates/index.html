@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LNSW Assistant</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Icon Library -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <h2><i class="fas fa-robot"></i> Asisten KNFP</h2>
+            <p>Tanya seputar aturan ekspor impor</p>
+        </div>
+
+        <div class="chat-box" id="chat-box">
+            <!-- Initial Bot Message -->
+            <div class="message bot-msg">
+                Halo! Saya siap membantu menjawab pertanyaan Anda seputar aturan LNSW. Silakan tanya sesuatu!
+            </div>
+        </div>
+
+        <form class="chat-input-area" id="chat-form">
+            <input type="text" id="msg" placeholder="Ketik pesan Anda..." required autocomplete="off">
+            <button type="submit">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById("chat-form");
+        const chatBox = document.getElementById("chat-box");
+        const msgInput = document.getElementById("msg");
+
+        function appendMessage(text, type) {
+            const msgDiv = document.createElement("div");
+            msgDiv.classList.add("message", type);
+            msgDiv.innerText = text;
+            chatBox.appendChild(msgDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        form.onsubmit = async function(e) {
+            e.preventDefault();
+            const msg = msgInput.value;
+            if (!msg) return;
+
+            // 1. Append User Message
+            appendMessage(msg, "user-msg");
+            msgInput.value = "";
+
+            // 2. Add Loading Indicator (optional enhancement, can be added later)
+            // For now, we wait for response directly.
+
+            try {
+                const res = await fetch("/get", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: "msg=" + encodeURIComponent(msg)
+                });
+
+                const data = await res.json();
+                
+                // 3. Append Bot Response
+                appendMessage(data.response, "bot-msg");
+
+            } catch (error) {
+                console.error("Error:", error);
+                appendMessage("Maaf, terjadi kesalahan koneksi.", "bot-msg");
+            }
+        }
+    </script>
+</body>
+</html>
